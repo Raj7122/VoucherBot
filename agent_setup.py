@@ -1,6 +1,6 @@
 import os
 from dotenv import load_dotenv
-from smolagents import CodeAgent, LiteLLMModel
+from smolagents import CodeAgent, HfApiModel
 from smolagents.agents import PromptTemplates, PlanningPromptTemplate, ManagedAgentPromptTemplate, FinalAnswerPromptTemplate
 from tools import find_matching_listings, get_listing_violations, final_answer, comms_tool
 from nearest_subway_tool import nearest_subway_tool
@@ -219,10 +219,8 @@ def initialize_caseworker_agent():
         "timestamp": current_timestamp()
     })
     
-    # Use a simple mock for testing - replace with real model when ready
-    from smolagents.models import TransformersModel
-    model = TransformersModel(
-        model_id="gpt2"
+    model = HfApiModel(
+        model_id="Qwen/Qwen2.5-Coder-32B-Instruct"
     )
     
     prompt_templates = PromptTemplates(
@@ -266,8 +264,8 @@ def initialize_caseworker_agent():
     
     log_tool_action("AgentSetup", "caseworker_initialized", {
         "tools_count": len(tools),
-        "model": "gpt2",
-        "provider": "TransformersModel",
+        "model": "Qwen/Qwen2.5-Coder-32B-Instruct",
+        "provider": "HfApiModel",
         "agent_type": "CodeAgent"
     })
     
