@@ -222,7 +222,7 @@ def initialize_caseworker_agent():
     # Use a simple mock for testing - replace with real model when ready
     from smolagents.models import TransformersModel
     model = TransformersModel(
-        model_id="microsoft/DialoGPT-medium"
+        model_id="gpt2"
     )
     
     prompt_templates = PromptTemplates(
@@ -266,7 +266,7 @@ def initialize_caseworker_agent():
     
     log_tool_action("AgentSetup", "caseworker_initialized", {
         "tools_count": len(tools),
-        "model": "microsoft/DialoGPT-medium",
+        "model": "gpt2",
         "provider": "TransformersModel",
         "agent_type": "CodeAgent"
     })
