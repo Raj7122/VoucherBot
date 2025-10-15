@@ -1,6 +1,6 @@
 import os
 from dotenv import load_dotenv
-from smolagents import CodeAgent, HfApiModel
+from smolagents import CodeAgent, LiteLLMModel
 from smolagents.agents import PromptTemplates, PlanningPromptTemplate, ManagedAgentPromptTemplate, FinalAnswerPromptTemplate
 from tools import find_matching_listings, get_listing_violations, final_answer, comms_tool
 from nearest_subway_tool import nearest_subway_tool
@@ -219,8 +219,8 @@ def initialize_caseworker_agent():
         "timestamp": current_timestamp()
     })
     
-    model = HfApiModel(
-        model_id="Qwen/Qwen2.5-Coder-32B-Instruct"
+    model = LiteLLMModel(
+        model_id="huggingface/Qwen/Qwen2.5-Coder-32B-Instruct"
     )
     
     prompt_templates = PromptTemplates(
@@ -264,8 +264,8 @@ def initialize_caseworker_agent():
     
     log_tool_action("AgentSetup", "caseworker_initialized", {
         "tools_count": len(tools),
-        "model": "Qwen/Qwen2.5-Coder-32B-Instruct",
-        "provider": "HfApiModel",
+        "model": "huggingface/Qwen/Qwen2.5-Coder-32B-Instruct",
+        "provider": "LiteLLMModel",
         "agent_type": "CodeAgent"
     })
     
