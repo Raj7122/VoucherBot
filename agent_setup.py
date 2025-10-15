@@ -1,6 +1,6 @@
 import os
 from dotenv import load_dotenv
-from smolagents import CodeAgent, OpenAIServerModel
+from smolagents import CodeAgent, LiteLLMModel
 from smolagents.agents import PromptTemplates, PlanningPromptTemplate, ManagedAgentPromptTemplate, FinalAnswerPromptTemplate
 from tools import find_matching_listings, get_listing_violations, final_answer, comms_tool
 from nearest_subway_tool import nearest_subway_tool
@@ -219,10 +219,9 @@ def initialize_caseworker_agent():
         "timestamp": current_timestamp()
     })
     
-    model = OpenAIServerModel(
-        model_id="gemini-1.5-flash-latest",
-        api_key=gemini_api_key,
-        api_base="https://generativelanguage.googleapis.com/v1beta/"
+    model = LiteLLMModel(
+        model_id="gemini/gemini-1.5-flash-latest",
+        api_key=gemini_api_key
     )
     
     prompt_templates = PromptTemplates(
@@ -267,6 +266,7 @@ def initialize_caseworker_agent():
     log_tool_action("AgentSetup", "caseworker_initialized", {
         "tools_count": len(tools),
         "model": "gemini-1.5-flash-latest",
+        "provider": "LiteLLMModel",
         "agent_type": "CodeAgent"
     })
     
