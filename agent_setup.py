@@ -219,9 +219,10 @@ def initialize_caseworker_agent():
         "timestamp": current_timestamp()
     })
     
-    model = LiteLLMModel(
-        model_id="gemini/gemini-1.5-flash-latest",
-        api_key=gemini_api_key
+    # Use a simple mock for testing - replace with real model when ready
+    from smolagents.models import TransformersModel
+    model = TransformersModel(
+        model_id="microsoft/DialoGPT-medium"
     )
     
     prompt_templates = PromptTemplates(
@@ -265,8 +266,8 @@ def initialize_caseworker_agent():
     
     log_tool_action("AgentSetup", "caseworker_initialized", {
         "tools_count": len(tools),
-        "model": "gemini-1.5-flash-latest",
-        "provider": "LiteLLMModel",
+        "model": "microsoft/DialoGPT-medium",
+        "provider": "TransformersModel",
         "agent_type": "CodeAgent"
     })
     

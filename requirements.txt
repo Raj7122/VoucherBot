@@ -1,5 +1,7 @@
 gradio
 smolagents[litellm]
+transformers
+torch
 google-generativeai
 requests>=2.31.0
 python-dotenv
