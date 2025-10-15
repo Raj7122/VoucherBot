@@ -1,3 +1,14 @@
+---
+title: NYC Voucher Housing Navigator
+emoji: 🏠
+colorFrom: blue
+colorTo: green
+sdk: gradio
+sdk_version: "5.42.0"
+app_file: app.py
+pinned: false
+---
+
 # NYC Voucher-Friendly Housing Collector
 
 A Python tool for collecting housing listings that accept housing vouchers (Section 8, CityFHEPS, etc.) in New York City. This tool uses legitimate data sources and APIs rather than web scraping.
