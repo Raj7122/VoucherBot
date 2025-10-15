@@ -1054,15 +1054,15 @@ class BrowserAgent(TimedObservationMixin, Tool):
                     "query": query
                 })
 
-                return json.dumps(timer.success(
-                    f"Mock search complete: Found {len(filtered_listings)} voucher-friendly listings",
-                    data={"listings": filtered_listings}
-                ))
+                return json.dumps(timer.success({
+                    "message": f"Mock search complete: Found {len(filtered_listings)} voucher-friendly listings",
+                    "listings": filtered_listings
+                }))
 
             except Exception as e:
                 return json.dumps(timer.error(
                     f"Mock search failed: {str(e)}",
-                    data={"error_type": type(e).__name__}
+                    {"error_type": type(e).__name__}
                 ))
 
 # --- 4. Convenience Functions and Testing ---
