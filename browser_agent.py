@@ -7,9 +7,9 @@ import re
 from concurrent.futures import ThreadPoolExecutor, as_completed
 from datetime import datetime, timezone
 from smolagents import Tool
-import helium
-from selenium.common.exceptions import NoSuchElementException
-from selenium.webdriver.chrome.options import Options
+# import helium
+# from selenium.common.exceptions import NoSuchElementException
+# from selenium.webdriver.chrome.options import Options
 # Browser automation dependencies commented out for mock demo
 # from selenium import webdriver
 # from webdriver_manager.chrome import ChromeDriverManager
