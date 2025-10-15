@@ -7,8 +7,9 @@ pandas
 feedparser==6.0.11
 beautifulsoup4==4.12.2
 lxml==5.1.0
-selenium
-helium
-webdriver-manager
+# Browser automation dependencies (mocked for demo)
+# selenium
+# helium
+# webdriver-manager
 pillow
 geopy>=2.3.0 

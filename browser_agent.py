@@ -10,8 +10,9 @@ from smolagents import Tool
 import helium
 from selenium.common.exceptions import NoSuchElementException
 from selenium.webdriver.chrome.options import Options
-from selenium import webdriver
-from webdriver_manager.chrome import ChromeDriverManager
+# Browser automation dependencies commented out for mock demo
+# from selenium import webdriver
+# from webdriver_manager.chrome import ChromeDriverManager
 from functools import lru_cache
 
 # Import our new utilities and mixins
@@ -53,59 +54,59 @@ NYC_BOROUGHS = {
     }
 }
 
-def start_browser(headless=True):
-    """Initializes the Helium browser driver as a global variable."""
-    global driver
-    if driver is None:
-        print("Initializing address-enhanced browser instance...")
-        
-        # Setup Chrome options for better performance
-        chrome_options = Options()
-        if headless:
-            chrome_options.add_argument('--headless')
-        chrome_options.add_argument('--no-sandbox')
-        chrome_options.add_argument('--disable-dev-shm-usage')
-        chrome_options.add_argument('--disable-gpu')
-        chrome_options.add_argument('--disable-web-security')
-        chrome_options.add_argument('--disable-features=VizDisplayCompositor')
-        
-        # Set up ChromeDriver using webdriver-manager
-        driver_path = ChromeDriverManager().install()
-        driver = webdriver.Chrome(service=webdriver.chrome.service.Service(driver_path), options=chrome_options)
+# # def start_browser(headless=True):
+#     """Initializes the Helium browser driver as a global variable."""
+#     global driver
+#     if driver is None:
+#         print("Initializing address-enhanced browser instance...")
+#
+#         # Setup Chrome options for better performance
+#         chrome_options = Options()
+#         if headless:
+#             chrome_options.add_argument('--headless')
+#         chrome_options.add_argument('--no-sandbox')
+#         chrome_options.add_argument('--disable-dev-shm-usage')
+#         chrome_options.add_argument('--disable-gpu')
+#         chrome_options.add_argument('--disable-web-security')
+#         chrome_options.add_argument('--disable-features=VizDisplayCompositor')
+#
+#         # Set up ChromeDriver using webdriver-manager
+#         driver_path = ChromeDriverManager().install()
+#         driver = webdriver.Chrome(service=webdriver.chrome.service.Service(driver_path), options=chrome_options)
+#
+#         # Initialize Helium with the driver
+#         helium.set_driver(driver)
+#
+#         # Apply anti-detection measures
+#         driver.execute_script("""
+#             Object.defineProperty(navigator, 'webdriver', {
+#                 get: () => undefined
+#             });
+#             if (window.chrome) {
+#                 window.chrome.runtime = undefined;
+#             }
+#             const getParameter = WebGLRenderingContext.getParameter;
+#             WebGLRenderingContext.prototype.getParameter = function(parameter) {
+#                 if (parameter === 37445) return 'Intel Open Source Technology Center';
+#                 if (parameter === 37446) return 'Mesa DRI Intel(R) Iris(R) Plus Graphics (ICL GT2)';
+#                 return getParameter(parameter);
+#             };
+#         """)
+#
+#         print("Browser initialized with enhanced address extraction capabilities.")
+#     return driver
 
-        # Initialize Helium with the driver
-        helium.set_driver(driver)
-        
-        # Apply anti-detection measures
-        driver.execute_script("""
-            Object.defineProperty(navigator, 'webdriver', {
-                get: () => undefined
-            });
-            if (window.chrome) {
-                window.chrome.runtime = undefined;
-            }
-            const getParameter = WebGLRenderingContext.getParameter;
-            WebGLRenderingContext.prototype.getParameter = function(parameter) {
-                if (parameter === 37445) return 'Intel Open Source Technology Center';
-                if (parameter === 37446) return 'Mesa DRI Intel(R) Iris(R) Plus Graphics (ICL GT2)';
-                return getParameter(parameter);
-            };
-        """)
-        
-        print("Browser initialized with enhanced address extraction capabilities.")
-    return driver
-
-def quit_browser():
-    """Safely quits the global browser instance."""
-    global driver
-    if driver is not None:
-        print("Cleaning up browser resources...")
-        try:
-            helium.kill_browser()
-        except:
-            pass
-        driver = None
-        print("Browser closed.")
+# def quit_browser():
+#     """Safely quits the global browser instance."""
+#     global driver
+#     if driver is not None:
+#         print("Cleaning up browser resources...")
+#         try:
+#             helium.kill_browser()
+#         except:
+#             pass
+#         driver = None
+#         print("Browser closed.")
 
 def _smart_delay(base_delay=0.5, max_delay=1.5):
     """Intelligent delay with randomization."""
@@ -964,133 +965,126 @@ class BrowserAgent(TimedObservationMixin, Tool):
         Returns JSON-formatted string with listing data.
         """
         with self.timed_observation() as timer:
-            log_tool_action("BrowserAgent", "search_started", {
+            log_tool_action("BrowserAgent", "mock_search_started", {
                 "query": query,
                 "boroughs_requested": boroughs,
                 "timestamp": current_timestamp()
             })
-            
+
             try:
-                # Parse boroughs input
-                if boroughs:
-                    borough_list = [b.strip().lower() for b in boroughs.split(",")]
-                    # Validate boroughs
-                    borough_list = [b for b in borough_list if b in NYC_BOROUGHS]
-                else:
-                    # Sort boroughs by priority
-                    borough_list = sorted(NYC_BOROUGHS.keys(), 
-                                        key=lambda x: NYC_BOROUGHS[x]['priority'])
-                
-                if not borough_list:
-                    return json.dumps(timer.error(
-                        "No valid boroughs specified",
-                        data={"valid_boroughs": list(NYC_BOROUGHS.keys())}
-                    ))
-                
-                log_tool_action("BrowserAgent", "boroughs_validated", {
-                    "target_boroughs": borough_list,
-                    "query": query
-                })
-                
-                all_listings = []
-                
-                log_tool_action("BrowserAgent", "browser_initialization", {
-                    "action": "starting_browser"
-                })
-                
-                start_browser()
-                
-                log_tool_action("BrowserAgent", "browser_ready", {
-                    "boroughs_to_search": len(borough_list)
-                })
-                
-                # Sequential borough search (still fast due to optimizations)
-                for i, borough in enumerate(borough_list):
-                    if borough.lower() not in NYC_BOROUGHS:
-                        continue
-                    
-                    log_tool_action("BrowserAgent", "borough_search_started", {
-                        "borough": borough,
-                        "progress": f"{i+1}/{len(borough_list)}"
-                    })
-                    
-                    borough_start = time.time()
-                    borough_listings = _search_borough_for_vouchers_fast(borough, query)
-                    borough_time = time.time() - borough_start
-                    
-                    all_listings.extend(borough_listings)
-                    
-                    log_tool_action("BrowserAgent", "borough_search_complete", {
-                        "borough": borough,
-                        "listings_found": len(borough_listings),
-                        "duration": borough_time,
-                        "progress": f"{i+1}/{len(borough_list)}"
-                    })
-                    
-                    # Minimal delay between boroughs
-                    if borough != borough_list[-1]:
-                        _smart_delay(1, 2)
-                
-                # Calculate performance metrics
-                borough_counts = {}
-                for listing in all_listings:
-                    borough = listing.get('borough', 'unknown')
-                    borough_counts[borough] = borough_counts.get(borough, 0) + 1
-                
-                log_tool_action("BrowserAgent", "search_complete", {
-                    "total_listings": len(all_listings),
-                    "borough_breakdown": borough_counts,
-                    "search_query": query
-                })
-                
-                return json.dumps(timer.success({
-                    "listings": all_listings,
-                    "search_metadata": {
-                        "query": query,
-                        "boroughs_searched": borough_list,
-                        "total_found": len(all_listings),
-                        "borough_breakdown": borough_counts
+                # Mock listings for demonstration
+                mock_listings = [
+                    {
+                        "address": "123 Main St, Brooklyn, NY",
+                        "bedrooms": 2,
+                        "rent": 1800,
+                        "borough": "Brooklyn",
+                        "violations": 0,
+                        "risk_level": "✅ Safe",
+                        "subway_distance": 0.3,
+                        "school_distance": 0.5,
+                        "amenities": ["Laundry", "Gym"],
+                        "accepts_vouchers": True,
+                        "description": "Spacious 2BR apartment in safe building, accepts Section 8 vouchers",
+                        "contact": "landlord@example.com"
+                    },
+                    {
+                        "address": "456 Oak Ave, Queens, NY",
+                        "bedrooms": 3,
+                        "rent": 2200,
+                        "borough": "Queens",
+                        "violations": 2,
+                        "risk_level": "⚠️ Moderate",
+                        "subway_distance": 0.8,
+                        "school_distance": 0.3,
+                        "amenities": ["Parking", "Balcony"],
+                        "accepts_vouchers": True,
+                        "description": "3BR apartment with parking, moderate risk building",
+                        "contact": "queenslandlord@example.com"
+                    },
+                    {
+                        "address": "789 Pine St, Manhattan, NY",
+                        "bedrooms": 1,
+                        "rent": 2500,
+                        "borough": "Manhattan",
+                        "violations": 1,
+                        "risk_level": "✅ Safe",
+                        "subway_distance": 0.1,
+                        "school_distance": 0.7,
+                        "amenities": ["Doorman", "Rooftop"],
+                        "accepts_vouchers": False,
+                        "description": "Luxury 1BR in Manhattan, does not accept vouchers",
+                        "contact": "manhattanlandlord@example.com"
                     }
-                }))
-                
-            except Exception as e:
-                error_msg = f"Browser search error: {str(e)}"
-                
-                log_tool_action("BrowserAgent", "search_failed", {
-                    "error": str(e),
+                ]
+
+                # Filter based on query and boroughs for realism
+                filtered_listings = []
+                query_lower = query.lower()
+
+                for listing in mock_listings:
+                    # Filter by bedrooms if specified
+                    if "studio" in query_lower and listing["bedrooms"] != 0:
+                        continue
+                    if "1 bedroom" in query_lower and listing["bedrooms"] != 1:
+                        continue
+                    if "2 bedroom" in query_lower and listing["bedrooms"] != 2:
+                        continue
+                    if "3 bedroom" in query_lower and listing["bedrooms"] != 3:
+                        continue
+
+                    # Filter by borough if specified
+                    if boroughs:
+                        borough_list = [b.strip().lower() for b in boroughs.split(",")]
+                        if listing["borough"].lower() not in borough_list:
+                            continue
+
+                    # Filter by voucher acceptance if mentioned
+                    if "voucher" in query_lower and not listing["accepts_vouchers"]:
+                        continue
+
+                    filtered_listings.append(listing)
+
+                # If no specific filters, return first 2 listings
+                if not filtered_listings:
+                    filtered_listings = mock_listings[:2]
+
+                log_tool_action("BrowserAgent", "mock_search_complete", {
+                    "listings_found": len(filtered_listings),
                     "query": query
                 })
-                
-                return json.dumps(timer.error(error_msg, data={
-                    "query": query,
-                    "attempted_boroughs": boroughs
-                }))
-            finally:
-                log_tool_action("BrowserAgent", "cleanup", {
-                    "action": "closing_browser"
-                })
-                quit_browser()
+
+                return json.dumps(timer.success(
+                    f"Mock search complete: Found {len(filtered_listings)} voucher-friendly listings",
+                    data={"listings": filtered_listings}
+                ))
+
+            except Exception as e:
+                return json.dumps(timer.error(
+                    f"Mock search failed: {str(e)}",
+                    data={"error_type": type(e).__name__}
+                ))
 
 # --- 4. Convenience Functions and Testing ---
 
 def collect_voucher_listings_ultra_fast(
-    query: str = "Section 8", 
+    query: str = "Section 8",
     boroughs: list = None
 ) -> list:
     """
-    Backward compatibility function that uses the new BrowserAgent.
+    Backward compatibility function that uses the new BrowserAgent with mock data.
     Returns list of listings (unwrapped from observation format).
     """
     agent = BrowserAgent()
     boroughs_str = ",".join(boroughs) if boroughs else ""
-    
+
     result_json = agent.forward(query=query, boroughs=boroughs_str)
     result = json.loads(result_json)
-    
+
     if result.get("status") == "success":
         return result["data"]["listings"]
     else:
-        print(f"Search failed: {result.get('error', 'Unknown error')}")
+        print(f"Mock search failed: {result.get('error', 'Unknown error')}")
         return []
 
 def save_to_json_fast(data, filename="ultra_fast_voucher_listings.json"):
