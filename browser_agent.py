@@ -10,6 +10,8 @@ from smolagents import Tool
 import helium
 from selenium.common.exceptions import NoSuchElementException
 from selenium.webdriver.chrome.options import Options
+from selenium import webdriver
+from webdriver_manager.chrome import ChromeDriverManager
 from functools import lru_cache
 
 # Import our new utilities and mixins
@@ -67,7 +69,12 @@ def start_browser(headless=True):
         chrome_options.add_argument('--disable-web-security')
         chrome_options.add_argument('--disable-features=VizDisplayCompositor')
         
-        driver = helium.start_chrome(headless=headless, options=chrome_options)
+        # Set up ChromeDriver using webdriver-manager
+        driver_path = ChromeDriverManager().install()
+        driver = webdriver.Chrome(service=webdriver.chrome.service.Service(driver_path), options=chrome_options)
+
+        # Initialize Helium with the driver
+        helium.set_driver(driver)
         
         # Apply anti-detection measures
         driver.execute_script("""
