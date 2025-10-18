@@ -226,9 +226,29 @@ def initialize_caseworker_agent():
     # Try different model options in order of preference
     model = None
 
-    # Try Gemini first if key is available
-    if gemini_key:
-        # Try different Gemini models in order of preference
+    # Try free models first (they work without API keys)
+    # Then try Gemini if key is available
+
+    # Try smaller, free HF models first (they don't require authentication)
+    free_models = [
+        "huggingface/Qwen/Qwen2.5-7B-Instruct",  # Smaller Qwen model
+        "huggingface/microsoft/DialoGPT-medium",  # Dialog model
+        "huggingface/facebook/blenderbot-400M-distill",  # Conversational model
+        "huggingface/Qwen/Qwen2.5-3B-Instruct",  # Even smaller Qwen
+    ]
+
+    for model_id in free_models:
+        try:
+            print(f"🔄 Trying free model: {model_id}")
+            model = LiteLLMModel(model_id=model_id)
+            print(f"✅ Successfully loaded {model_id}")
+            break
+        except Exception as e:
+            print(f"⚠️ {model_id} failed: {e}")
+            continue
+
+    # If free models didn't work, try Gemini models if key is available
+    if not model and gemini_key:
         gemini_models = [
             "gemini/gemini-pro",
             "gemini/gemini-1.0-pro",
@@ -243,25 +263,6 @@ def initialize_caseworker_agent():
                     model_id=model_id,
                     api_key=gemini_key
                 )
-                print(f"✅ Successfully loaded {model_id}")
-                break
-            except Exception as e:
-                print(f"⚠️ {model_id} failed: {e}")
-                continue
-
-    # If no model yet, try various free options in order
-    if not model:
-        # Try smaller, free HF models first
-        free_models = [
-            "huggingface/Qwen/Qwen2.5-7B-Instruct",  # Smaller Qwen model
-            "huggingface/microsoft/DialoGPT-medium",  # Dialog model
-            "huggingface/facebook/blenderbot-400M-distill",  # Conversational model
-        ]
-
-        for model_id in free_models:
-            try:
-                print(f"🔄 Trying free model: {model_id}")
-                model = LiteLLMModel(model_id=model_id)
                 print(f"✅ Successfully loaded {model_id}")
                 break
             except Exception as e:
