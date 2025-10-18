@@ -219,22 +219,47 @@ def initialize_caseworker_agent():
         "timestamp": current_timestamp()
     })
     
-    # Try to use a model that doesn't require authentication, or use environment variable
+    # Try multiple model options for better deployment compatibility
     hf_token = os.environ.get("HF_TOKEN")
     gemini_key = os.environ.get("GEMINI_API_KEY")
 
+    # Try different model options in order of preference
+    model = None
+
     if gemini_key:
-        print("✅ Using Gemini API for model")
-        model = LiteLLMModel(
-            model_id="gemini/gemini-1.5-flash",
-            api_key=gemini_key
-        )
-    else:
-        print("⚠️ No API keys found, using local model")
-        # Use a model that works without authentication
-        model = LiteLLMModel(
-            model_id="ollama/llama2:7b"  # This should work if Ollama is installed locally
-        )
+        try:
+            print("✅ Using Gemini API for model")
+            model = LiteLLMModel(
+                model_id="gemini/gemini-1.5-flash",
+                api_key=gemini_key
+            )
+        except Exception as e:
+            print(f"⚠️ Gemini API failed: {e}")
+
+    # If Gemini didn't work, try a free HF model that doesn't require auth
+    if not model:
+        try:
+            print("🔄 Trying free HuggingFace model")
+            model = LiteLLMModel(
+                model_id="huggingface/Qwen/Qwen2.5-7B-Instruct"  # Smaller, free model
+            )
+        except Exception as e:
+            print(f"⚠️ HF model failed: {e}")
+
+    # Final fallback - use a very basic model
+    if not model:
+        print("🔄 Using basic fallback model")
+        try:
+            # Try to use a model that works without special auth
+            model = LiteLLMModel(
+                model_id="gpt-3.5-turbo"  # This might work with default setup
+            )
+        except Exception as e:
+            print(f"⚠️ All models failed, using error fallback: {e}")
+            # Create a minimal working model as last resort
+            model = LiteLLMModel(
+                model_id="text-davinci-003"  # Basic OpenAI model
+            )
     
     prompt_templates = PromptTemplates(
         system_prompt=SYSTEM_PROMPT,
@@ -276,7 +301,10 @@ def initialize_caseworker_agent():
     ) 
     
     # Determine which model is being used for logging
-    model_name = "gemini/gemini-1.5-flash" if gemini_key else "ollama/llama2:7b"
+    if model:
+        model_name = getattr(model, 'model_id', 'unknown')
+    else:
+        model_name = 'no_model_available'
 
     log_tool_action("AgentSetup", "caseworker_initialized", {
         "tools_count": len(tools),
