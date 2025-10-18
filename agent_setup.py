@@ -219,9 +219,22 @@ def initialize_caseworker_agent():
         "timestamp": current_timestamp()
     })
     
-    model = LiteLLMModel(
-        model_id="huggingface/Qwen/Qwen2.5-Coder-32B-Instruct"
-    )
+    # Try to use a model that doesn't require authentication, or use environment variable
+    hf_token = os.environ.get("HF_TOKEN")
+    gemini_key = os.environ.get("GEMINI_API_KEY")
+
+    if gemini_key:
+        print("✅ Using Gemini API for model")
+        model = LiteLLMModel(
+            model_id="gemini/gemini-1.5-flash",
+            api_key=gemini_key
+        )
+    else:
+        print("⚠️ No API keys found, using local model")
+        # Use a model that works without authentication
+        model = LiteLLMModel(
+            model_id="ollama/llama2:7b"  # This should work if Ollama is installed locally
+        )
     
     prompt_templates = PromptTemplates(
         system_prompt=SYSTEM_PROMPT,
@@ -262,9 +275,12 @@ def initialize_caseworker_agent():
         ]
     ) 
     
+    # Determine which model is being used for logging
+    model_name = "gemini/gemini-1.5-flash" if gemini_key else "ollama/llama2:7b"
+
     log_tool_action("AgentSetup", "caseworker_initialized", {
         "tools_count": len(tools),
-        "model": "huggingface/Qwen/Qwen2.5-Coder-32B-Instruct",
+        "model": model_name,
         "provider": "LiteLLMModel",
         "agent_type": "CodeAgent"
     })
