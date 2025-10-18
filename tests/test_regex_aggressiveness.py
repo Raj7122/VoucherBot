@@ -33,7 +33,7 @@ class TestRegexAggressiveness(unittest.TestCase):
         self.state_with_listings = {
             "listings": [
                 {
-                    "address": "123 Test Ave, Bronx, NY 10457",
+                    "address": "1234 Grand Concourse, Bronx, NY 10457",
                     "price": "$2,000",
                     "url": "https://test.com/listing1",
                     "risk_level": "✅",

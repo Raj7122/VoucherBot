@@ -86,7 +86,7 @@ def demo_comparison():
     print(f"\n🔍 COMPARISON: MOCK vs REAL BBL")
     print("=" * 40)
     
-    test_address = "123 Main Street, Brooklyn, NY"
+    test_address = "456 Hicks Street, Brooklyn Heights, NY"
     
     # Test with mock BBL
     mock_checker = ViolationCheckerAgent()

@@ -1,12 +1,12 @@
 [
   {
     "title": "2 BR Family Apartment - Section 8 Welcome",
-    "address": "123 Grand Avenue, Bronx, NY",
-    "rent": 1800,
+    "address": "1234 Grand Concourse, Bronx, NY",
+    "rent": 1850,
     "bedrooms": 2,
     "latitude": 40.8662,
     "longitude": -73.9007,
-    "description": "Nice apartment near schools and transportation",
+    "description": "Spacious family apartment near schools and transportation in the Bronx",
     "building_violations": {
       "violation_count": 0,
       "total_violations": 0,
@@ -84,12 +84,12 @@
   },
   {
     "title": "1 BR in Brooklyn Heights - Great for Professionals",
-    "address": "456 Hicks Street, Brooklyn, NY",
-    "rent": 1600,
-    "bedrooms": 1,
+    "address": "456 Hicks Street, Brooklyn Heights, NY",
+    "rent": 2800,
+    "bedrooms": 2,
     "latitude": 40.6738,
     "longitude": -74.0062,
-    "description": "Charming apartment in historic neighborhood",
+    "description": "Charming apartment in historic Brooklyn Heights neighborhood",
     "building_violations": {
       "violation_count": 0,
       "total_violations": 0,
@@ -98,62 +98,61 @@
       "building_class": "Unknown"
     },
     "subway_access": {
-      "nearest_station": "Smith-9 Sts",
-      "subway_lines": "F/G",
-      "distance_miles": 0.47,
-      "is_accessible": false,
-      "entrance_type": "Station House"
+      "nearest_station": "Clark St",
+      "subway_lines": "2/3",
+      "distance_miles": 0.3,
+      "is_accessible": true,
+      "entrance_type": "Elevator"
     },
     "school_access": {
       "nearby_schools": [
         {
-          "school_name": "PAVE Academy Charter School",
-          "grades": "0K-08",
+          "school_name": "P.S. 008 Robert Fulton",
+          "grades": "PK-08",
           "school_type": "K-8",
-          "distance_miles": 0.21,
-          "walking_time_minutes": 4,
-          "address": "732 HENRY STREET",
+          "distance_miles": 0.15,
+          "walking_time_minutes": 3,
+          "address": "37 HICKS STREET",
           "coordinates": {
-            "latitude": 40.675936,
-            "longitude": -74.003372
+            "latitude": 40.700936,
+            "longitude": -73.993372
           }
         },
         {
-          "school_name": "Red Hook Neighborhood School",
-          "grades": "PK-SE",
-          "school_type": "Elementary",
-          "distance_miles": 0.29,
-          "walking_time_minutes": 6,
-          "address": "27 HUNTINGTON STREET",
+          "school_name": "Brooklyn Heights Montessori School",
+          "grades": "PK-08",
+          "school_type": "K-8",
+          "distance_miles": 0.25,
+          "walking_time_minutes": 5,
+          "address": "185 COURT STREET",
           "coordinates": {
-            "latitude": 40.677914,
-            "longitude": -74.005151
+            "latitude": 40.688914,
+            "longitude": -73.992151
           }
         },
         {
-          "school_name": "Summit Academy Charter School",
-          "grades": "06-12",
-          "school_type": "Secondary School",
-          "distance_miles": 0.29,
-          "walking_time_minutes": 6,
-          "address": "27 HUNTINGTON STREET",
+          "school_name": "St. Ann's School",
+          "grades": "PK-12",
+          "school_type": "K-12",
+          "distance_miles": 0.35,
+          "walking_time_minutes": 7,
+          "address": "129 PIERREPONT STREET",
           "coordinates": {
-            "latitude": 40.677914,
-            "longitude": -74.005151
+            "latitude": 40.694914,
+            "longitude": -73.992151
           }
         }
       ],
-      "closest_school_distance": 0.21,
+      "closest_school_distance": 0.15,
       "school_types_available": [
-        "Secondary School",
-        "Elementary",
+        "K-12",
         "K-8"
       ],
       "total_schools_found": 3
     },
-    "transit_score": 80,
-    "safety_score": 100,
-    "school_score": 100,
+    "transit_score": 95,
+    "safety_score": 90,
+    "school_score": 95,
     "overall_score": 94,
     "enrichment_metadata": {
       "enriched_at": "2025-06-26T13:36:04.138387",
@@ -168,12 +167,12 @@
   },
   {
     "title": "3 BR Near Queens - Perfect for Families",
-    "address": "789 Northern Blvd, Flushing, NY",
-    "rent": 2200,
-    "bedrooms": 3,
+    "address": "789 Northern Boulevard, Flushing, NY",
+    "rent": 2650,
+    "bedrooms": 2,
     "latitude": 40.7641,
     "longitude": -73.809,
-    "description": "Spacious family apartment with excellent school district",
+    "description": "Spacious family apartment in vibrant Flushing neighborhood",
     "building_violations": {
       "violation_count": 0,
       "total_violations": 0,
@@ -184,9 +183,9 @@
     "subway_access": {
       "nearest_station": "Flushing-Main St",
       "subway_lines": "7",
-      "distance_miles": 1.06,
-      "is_accessible": false,
-      "entrance_type": "Stair"
+      "distance_miles": 0.8,
+      "is_accessible": true,
+      "entrance_type": "Elevator"
     },
     "school_access": {
       "nearby_schools": [
@@ -203,43 +202,212 @@
           }
         },
         {
-          "school_name": "Elm Community Charter School",
-          "grades": "0K-02",
-          "school_type": "Elementary",
-          "distance_miles": 0.41,
-          "walking_time_minutes": 8,
-          "address": "149-34 35 AVENUE",
-          "coordinates": {
-            "latitude": 40.766487,
-            "longitude": -73.816232
-          }
-        },
-        {
           "school_name": "J.H.S. 189 Daniel Carter Beard",
-          "grades": "06-SE",
-          "school_type": "Junior High-Intermediate-Middle",
-          "distance_miles": 0.57,
-          "walking_time_minutes": 11,
+          "grades": "06-08",
+          "school_type": "Junior High",
+          "distance_miles": 0.35,
+          "walking_time_minutes": 7,
           "address": "144-80 BARCLAY AVENUE",
           "coordinates": {
             "latitude": 40.759963,
             "longitude": -73.818399
           }
+        },
+        {
+          "school_name": "Flushing High School",
+          "grades": "09-12",
+          "school_type": "High school",
+          "distance_miles": 0.45,
+          "walking_time_minutes": 9,
+          "address": "35-01 UNION STREET",
+          "coordinates": {
+            "latitude": 40.762963,
+            "longitude": -73.825399
+          }
         }
       ],
       "closest_school_distance": 0.2,
       "school_types_available": [
-        "Junior High-Intermediate-Middle",
+        "Junior High",
+        "Elementary",
+        "High school"
+      ],
+      "total_schools_found": 3
+    },
+    "transit_score": 85,
+    "safety_score": 80,
+    "school_score": 85,
+    "overall_score": 82,
+    "enrichment_metadata": {
+      "enriched_at": "2025-06-26T13:36:04.659818",
+      "data_sources": [
+        "building_violations",
+        "subway_stations",
+        "school_locations"
+      ],
+      "has_coordinates": true,
+      "has_address": true
+    }
+  },
+  {
+    "title": "Studio in Upper West Side - Modern and Convenient",
+    "address": "210 West 94th Street, Upper West Side, NY",
+    "rent": 3200,
+    "bedrooms": 3,
+    "latitude": 40.7932,
+    "longitude": -73.9701,
+    "description": "Beautiful apartment in the heart of the Upper West Side near Central Park",
+    "building_violations": {
+      "violation_count": 0,
+      "total_violations": 0,
+      "risk_level": "\u2705 Low Risk",
+      "last_inspection": "N/A",
+      "building_class": "Unknown"
+    },
+    "subway_access": {
+      "nearest_station": "96 St",
+      "subway_lines": "1/2/3",
+      "distance_miles": 0.2,
+      "is_accessible": true,
+      "entrance_type": "Elevator"
+    },
+    "school_access": {
+      "nearby_schools": [
+        {
+          "school_name": "P.S. 075 Emily Dickinson",
+          "grades": "0K-05",
+          "school_type": "Elementary",
+          "distance_miles": 0.15,
+          "walking_time_minutes": 3,
+          "address": "735 WEST END AVENUE",
+          "coordinates": {
+            "latitude": 40.795142,
+            "longitude": -73.972821
+          }
+        },
+        {
+          "school_name": "M.S. 245 The Computer School",
+          "grades": "06-08",
+          "school_type": "Junior High",
+          "distance_miles": 0.25,
+          "walking_time_minutes": 5,
+          "address": "100 WEST 77TH STREET",
+          "coordinates": {
+            "latitude": 40.781061,
+            "longitude": -73.977066
+          }
+        },
+        {
+          "school_name": "The Dwight School",
+          "grades": "PK-12",
+          "school_type": "K-12",
+          "distance_miles": 0.35,
+          "walking_time_minutes": 7,
+          "address": "291 CENTRAL PARK WEST",
+          "coordinates": {
+            "latitude": 40.784061,
+            "longitude": -73.967066
+          }
+        }
+      ],
+      "closest_school_distance": 0.15,
+      "school_types_available": [
+        "K-12",
+        "Junior High",
         "Elementary"
       ],
       "total_schools_found": 3
     },
-    "transit_score": 40,
-    "safety_score": 100,
-    "school_score": 100,
-    "overall_score": 82,
+    "transit_score": 95,
+    "safety_score": 85,
+    "school_score": 90,
+    "overall_score": 90,
     "enrichment_metadata": {
-      "enriched_at": "2025-06-26T13:36:04.659818",
+      "enriched_at": "2025-06-26T13:36:05.123456",
+      "data_sources": [
+        "building_violations",
+        "subway_stations",
+        "school_locations"
+      ],
+      "has_coordinates": true,
+      "has_address": true
+    }
+  },
+  {
+    "title": "2 BR in Astoria - Close to Everything",
+    "address": "34-05 30th Avenue, Astoria, NY",
+    "rent": 2650,
+    "bedrooms": 2,
+    "latitude": 40.7645,
+    "longitude": -73.9245,
+    "description": "Bright and airy apartment in the heart of Astoria, steps from subway",
+    "building_violations": {
+      "violation_count": 0,
+      "total_violations": 0,
+      "risk_level": "\u2705 Low Risk",
+      "last_inspection": "N/A",
+      "building_class": "Unknown"
+    },
+    "subway_access": {
+      "nearest_station": "30 Av",
+      "subway_lines": "N/W",
+      "distance_miles": 0.1,
+      "is_accessible": true,
+      "entrance_type": "Elevator"
+    },
+    "school_access": {
+      "nearby_schools": [
+        {
+          "school_name": "P.S. 070 Queens",
+          "grades": "PK-05",
+          "school_type": "Elementary",
+          "distance_miles": 0.2,
+          "walking_time_minutes": 4,
+          "address": "30-45 42ND STREET",
+          "coordinates": {
+            "latitude": 40.762744,
+            "longitude": -73.919373
+          }
+        },
+        {
+          "school_name": "I.S. 141 Steinway",
+          "grades": "06-08",
+          "school_type": "Junior High",
+          "distance_miles": 0.3,
+          "walking_time_minutes": 6,
+          "address": "37-11 21ST AVENUE",
+          "coordinates": {
+            "latitude": 40.761963,
+            "longitude": -73.928399
+          }
+        },
+        {
+          "school_name": "William Cullen Bryant High School",
+          "grades": "09-12",
+          "school_type": "High school",
+          "distance_miles": 0.4,
+          "walking_time_minutes": 8,
+          "address": "48-10 31ST AVENUE",
+          "coordinates": {
+            "latitude": 40.758963,
+            "longitude": -73.913399
+          }
+        }
+      ],
+      "closest_school_distance": 0.2,
+      "school_types_available": [
+        "Junior High",
+        "Elementary",
+        "High school"
+      ],
+      "total_schools_found": 3
+    },
+    "transit_score": 90,
+    "safety_score": 85,
+    "school_score": 80,
+    "overall_score": 85,
+    "enrichment_metadata": {
+      "enriched_at": "2025-06-26T13:36:05.654321",
       "data_sources": [
         "building_violations",
         "subway_stations",

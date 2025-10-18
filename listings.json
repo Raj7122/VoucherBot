@@ -10,43 +10,115 @@
   },
   {
     "id": 102,
-    "address": "123 Hope Street, Brooklyn, NY",
+    "address": "456 Hicks Street, Brooklyn Heights, NY",
     "bbl": "3021480026",
-    "rent": 2300,
+    "rent": 2800,
     "bedrooms": 2,
     "accepts_voucher_type": ["CityFHEPS"],
     "contact_email": "brooklyn.housing@example.com"
   },
   {
+    "id": 103,
+    "address": "234 East 7th Street, East Village, NY",
+    "bbl": "1004607501",
+    "rent": 2200,
+    "bedrooms": 1,
+    "accepts_voucher_type": ["Section 8", "CityFHEPS"],
+    "contact_email": "eastvillage.apts@example.com"
+  },
+  {
+    "id": 104,
+    "address": "789 Northern Boulevard, Flushing, NY",
+    "bbl": "4050300025",
+    "rent": 1950,
+    "bedrooms": 2,
+    "accepts_voucher_type": ["CityFHEPS"],
+    "contact_email": "flushing.properties@example.com"
+  },
+  {
+    "id": 105,
+    "address": "156 West 126th Street, Harlem, NY",
+    "bbl": "1017200045",
+    "rent": 2100,
+    "bedrooms": 1,
+    "accepts_voucher_type": ["Section 8"],
+    "contact_email": "harlem.homes@example.com"
+  },
+  {
     "id": 201,
-    "address": "210 West 94th Street, Manhattan, NY",
+    "address": "210 West 94th Street, Upper West Side, NY",
     "bbl": "1012390041",
-    "rent": 2900,
+    "rent": 3200,
     "bedrooms": 3,
     "accepts_voucher_type": ["Section 8"],
     "contact_email": "prestige.properties@example.com"
   },
   {
     "id": 202,
-    "address": "34-05 30th Ave, Queens, NY",
+    "address": "34-05 30th Avenue, Astoria, NY",
     "bbl": "4006490038",
-    "rent": 3100,
-    "bedrooms": 3,
-    "accepts_voucher_type": ["Section 8"],
+    "rent": 2650,
+    "bedrooms": 2,
+    "accepts_voucher_type": ["Section 8", "CityFHEPS"],
     "contact_email": "astoria.realty@example.com"
   },
   {
+    "id": 203,
+    "address": "567 Bedford Avenue, Williamsburg, NY",
+    "bbl": "3022450034",
+    "rent": 3100,
+    "bedrooms": 2,
+    "accepts_voucher_type": ["CityFHEPS"],
+    "contact_email": "williamsburg.lofts@example.com"
+  },
+  {
+    "id": 204,
+    "address": "890 5th Avenue, Park Slope, NY",
+    "bbl": "3010650023",
+    "rent": 2900,
+    "bedrooms": 3,
+    "accepts_voucher_type": ["Section 8"],
+    "contact_email": "parkslope.properties@example.com"
+  },
+  {
+    "id": 205,
+    "address": "1234 Grand Concourse, Bronx, NY",
+    "bbl": "2028200021",
+    "rent": 1850,
+    "bedrooms": 2,
+    "accepts_voucher_type": ["CityFHEPS", "Section 8"],
+    "contact_email": "bronx.housing@example.com"
+  },
+  {
     "id": 301,
-    "address": "45-15 44th St, Queens, NY",
+    "address": "45-15 44th Street, Sunnyside, NY",
     "bbl": "4002290025",
     "rent": 2100,
     "bedrooms": 1,
     "accepts_voucher_type": ["CityFHEPS"],
-    "contact_email": "leasing.office@example.com"
+    "contact_email": "sunnyside.apt@example.com"
+  },
+  {
+    "id": 302,
+    "address": "678 Metropolitan Avenue, East Williamsburg, NY",
+    "bbl": "3027800045",
+    "rent": 2400,
+    "bedrooms": 2,
+    "accepts_voucher_type": ["Section 8"],
+    "contact_email": "metropolitan.homes@example.com"
+  },
+  {
+    "id": 303,
+    "address": "345 East 12th Street, Gramercy Park, NY",
+    "bbl": "1005650023",
+    "rent": 3500,
+    "bedrooms": 1,
+    "accepts_voucher_type": ["CityFHEPS"],
+    "contact_email": "gramercy.properties@example.com"
   },
   {
     "id": 401,
-    "address": "500 East 77th Street, Manhattan, NY",
+    "address": "500 East 77th Street, Upper East Side, NY",
     "bbl": "1014600001",
     "rent": 2600,
     "bedrooms": 1,
@@ -54,12 +126,57 @@
     "contact_email": "yorkville.mgmt@example.com"
   },
   {
-    "id": 901,
-    "address": "1930 Grand Concourse, Bronx, NY",
-    "bbl": "2028200021",
-    "rent": 1800,
+    "id": 402,
+    "address": "234 West 148th Street, Hamilton Heights, NY",
+    "bbl": "1020407501",
+    "rent": 1950,
+    "bedrooms": 2,
+    "accepts_voucher_type": ["CityFHEPS"],
+    "contact_email": "hamilton.homes@example.com"
+  },
+  {
+    "id": 403,
+    "address": "789 Steinway Street, Astoria, NY",
+    "bbl": "4008700034",
+    "rent": 2250,
+    "bedrooms": 1,
+    "accepts_voucher_type": ["Section 8"],
+    "contact_email": "steinway.apt@example.com"
+  },
+  {
+    "id": 404,
+    "address": "456 Kingston Avenue, Crown Heights, NY",
+    "bbl": "3012250045",
+    "rent": 2300,
     "bedrooms": 2,
     "accepts_voucher_type": ["CityFHEPS", "Section 8"],
-    "contact_email": "unresponsive.llc@example.com"
+    "contact_email": "crownheights.homes@example.com"
+  },
+  {
+    "id": 501,
+    "address": "890 Richmond Terrace, St. George, NY",
+    "bbl": "5001200034",
+    "rent": 1750,
+    "bedrooms": 1,
+    "accepts_voucher_type": ["Section 8"],
+    "contact_email": "stgeorge.housing@example.com"
+  },
+  {
+    "id": 502,
+    "address": "345 Hylan Boulevard, Dongan Hills, NY",
+    "bbl": "5035400023",
+    "rent": 2100,
+    "bedrooms": 2,
+    "accepts_voucher_type": ["CityFHEPS"],
+    "contact_email": "donganhills.properties@example.com"
+  },
+  {
+    "id": 503,
+    "address": "678 Arthur Kill Road, Tottenville, NY",
+    "bbl": "5067800045",
+    "rent": 2400,
+    "bedrooms": 3,
+    "accepts_voucher_type": ["Section 8"],
+    "contact_email": "tottenville.homes@example.com"
   }
 ] 

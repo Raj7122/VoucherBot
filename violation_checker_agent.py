@@ -496,9 +496,9 @@ def test_violation_checker():
     checker = ViolationCheckerAgent()
     
     test_addresses = [
-        "123 Main Street, Brooklyn NY",
-        "456 Broadway, Manhattan NY",
-        "789 Grand Avenue, Bronx NY"
+        "456 Hicks Street, Brooklyn Heights, NY",
+        "234 East 7th Street, East Village, NY",
+        "1234 Grand Concourse, Bronx, NY"
     ]
     
     for address in test_addresses:
