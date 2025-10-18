@@ -226,6 +226,7 @@ def initialize_caseworker_agent():
     # Try different model options in order of preference
     model = None
 
+    # Try Gemini first if key is available
     if gemini_key:
         try:
             print("✅ Using Gemini API for model")
@@ -236,30 +237,49 @@ def initialize_caseworker_agent():
         except Exception as e:
             print(f"⚠️ Gemini API failed: {e}")
 
-    # If Gemini didn't work, try a free HF model that doesn't require auth
+    # If no model yet, try various free options in order
     if not model:
-        try:
-            print("🔄 Trying free HuggingFace model")
-            model = LiteLLMModel(
-                model_id="huggingface/Qwen/Qwen2.5-7B-Instruct"  # Smaller, free model
-            )
-        except Exception as e:
-            print(f"⚠️ HF model failed: {e}")
+        # Try smaller, free HF models first
+        free_models = [
+            "huggingface/Qwen/Qwen2.5-7B-Instruct",  # Smaller Qwen model
+            "huggingface/microsoft/DialoGPT-medium",  # Dialog model
+            "huggingface/facebook/blenderbot-400M-distill",  # Conversational model
+        ]
 
-    # Final fallback - use a very basic model
+        for model_id in free_models:
+            try:
+                print(f"🔄 Trying free model: {model_id}")
+                model = LiteLLMModel(model_id=model_id)
+                print(f"✅ Successfully loaded {model_id}")
+                break
+            except Exception as e:
+                print(f"⚠️ {model_id} failed: {e}")
+                continue
+
+    # If still no model, try OpenAI models (they might work in some environments)
     if not model:
-        print("🔄 Using basic fallback model")
+        openai_models = ["gpt-3.5-turbo", "gpt-3.5-turbo-16k", "text-davinci-003"]
+        for model_id in openai_models:
+            try:
+                print(f"🔄 Trying OpenAI model: {model_id}")
+                model = LiteLLMModel(model_id=model_id)
+                print(f"✅ Successfully loaded {model_id}")
+                break
+            except Exception as e:
+                print(f"⚠️ {model_id} failed: {e}")
+                continue
+
+    # Final fallback - if nothing works, create a mock model that won't crash
+    if not model:
+        print("🚨 All model options failed - this shouldn't happen in production")
+        print("🔧 Creating fallback configuration")
+        # In a real deployment, this should be handled better
+        # For now, let's try one more time with a basic model
         try:
-            # Try to use a model that works without special auth
-            model = LiteLLMModel(
-                model_id="gpt-3.5-turbo"  # This might work with default setup
-            )
-        except Exception as e:
-            print(f"⚠️ All models failed, using error fallback: {e}")
-            # Create a minimal working model as last resort
-            model = LiteLLMModel(
-                model_id="text-davinci-003"  # Basic OpenAI model
-            )
+            model = LiteLLMModel(model_id="text-davinci-003")
+        except:
+            # If even this fails, we'll need to handle it in the calling code
+            model = None
     
     prompt_templates = PromptTemplates(
         system_prompt=SYSTEM_PROMPT,
@@ -301,10 +321,19 @@ def initialize_caseworker_agent():
     ) 
     
     # Determine which model is being used for logging
-    if model:
-        model_name = getattr(model, 'model_id', 'unknown')
+    if model and hasattr(model, 'model_id'):
+        model_name = model.model_id
     else:
         model_name = 'no_model_available'
+
+    # If no model is available, we need to handle this gracefully
+    if not model:
+        print("🚨 CRITICAL: No model could be initialized!")
+        print("This means the application cannot function properly.")
+        print("Please check your API keys and network connectivity.")
+        # In a production system, we might want to raise an exception here
+        # For now, let's create a mock agent or return None
+        raise RuntimeError("No LLM model could be initialized. Please check API keys and connectivity.")
 
     log_tool_action("AgentSetup", "caseworker_initialized", {
         "tools_count": len(tools),
@@ -312,7 +341,7 @@ def initialize_caseworker_agent():
         "provider": "LiteLLMModel",
         "agent_type": "CodeAgent"
     })
-    
+
     return caseworker_agent
 
 def initialize_agent_workflow():
