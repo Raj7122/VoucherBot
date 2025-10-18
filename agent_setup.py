@@ -226,20 +226,20 @@ def initialize_caseworker_agent():
     # Try different model options in order of preference
     model = None
 
-    # Try free models first (they work without API keys)
-    # Then try Gemini if key is available
+    # Try models that work in deployment environments
+    # Start with models that don't require authentication
 
-    # Try smaller, free HF models first (they don't require authentication)
-    free_models = [
-        "huggingface/Qwen/Qwen2.5-7B-Instruct",  # Smaller Qwen model
-        "huggingface/microsoft/DialoGPT-medium",  # Dialog model
-        "huggingface/facebook/blenderbot-400M-distill",  # Conversational model
-        "huggingface/Qwen/Qwen2.5-3B-Instruct",  # Even smaller Qwen
+    # Try OpenAI models first (they work well in many environments)
+    openai_models = [
+        "gpt-3.5-turbo",  # Most compatible
+        "gpt-3.5-turbo-16k",
+        "text-davinci-003",
+        "gpt-4",  # If available
     ]
 
-    for model_id in free_models:
+    for model_id in openai_models:
         try:
-            print(f"🔄 Trying free model: {model_id}")
+            print(f"🔄 Trying OpenAI model: {model_id}")
             model = LiteLLMModel(model_id=model_id)
             print(f"✅ Successfully loaded {model_id}")
             break
@@ -247,7 +247,25 @@ def initialize_caseworker_agent():
             print(f"⚠️ {model_id} failed: {e}")
             continue
 
-    # If free models didn't work, try Gemini models if key is available
+    # If OpenAI didn't work, try some free HF models that might work
+    if not model:
+        hf_models = [
+            "huggingface/microsoft/DialoGPT-medium",  # Dialog model
+            "huggingface/facebook/blenderbot-400M-distill",  # Conversational model
+            "huggingface/Qwen/Qwen2.5-3B-Instruct",  # Smallest Qwen
+        ]
+
+        for model_id in hf_models:
+            try:
+                print(f"🔄 Trying HF model: {model_id}")
+                model = LiteLLMModel(model_id=model_id)
+                print(f"✅ Successfully loaded {model_id}")
+                break
+            except Exception as e:
+                print(f"⚠️ {model_id} failed: {e}")
+                continue
+
+    # If HF models didn't work, try Gemini models if key is available
     if not model and gemini_key:
         gemini_models = [
             "gemini/gemini-pro",
@@ -269,30 +287,13 @@ def initialize_caseworker_agent():
                 print(f"⚠️ {model_id} failed: {e}")
                 continue
 
-    # If still no model, try OpenAI models (they might work in some environments)
+    # Final fallback - if nothing works, we'll need to handle this gracefully
     if not model:
-        openai_models = ["gpt-3.5-turbo", "gpt-3.5-turbo-16k", "text-davinci-003"]
-        for model_id in openai_models:
-            try:
-                print(f"🔄 Trying OpenAI model: {model_id}")
-                model = LiteLLMModel(model_id=model_id)
-                print(f"✅ Successfully loaded {model_id}")
-                break
-            except Exception as e:
-                print(f"⚠️ {model_id} failed: {e}")
-                continue
-
-    # Final fallback - if nothing works, create a mock model that won't crash
-    if not model:
-        print("🚨 All model options failed - this shouldn't happen in production")
-        print("🔧 Creating fallback configuration")
-        # In a real deployment, this should be handled better
-        # For now, let's try one more time with a basic model
-        try:
-            model = LiteLLMModel(model_id="text-davinci-003")
-        except:
-            # If even this fails, we'll need to handle it in the calling code
-            model = None
+        print("🚨 No models could be loaded")
+        print("🔧 The application will need to be configured with API keys")
+        print("📋 Please set up GEMINI_API_KEY or ensure OpenAI access")
+        # For now, we'll still try to continue but this will cause issues
+        model = None
     
     prompt_templates = PromptTemplates(
         system_prompt=SYSTEM_PROMPT,
