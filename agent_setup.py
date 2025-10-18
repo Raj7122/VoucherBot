@@ -228,14 +228,26 @@ def initialize_caseworker_agent():
 
     # Try Gemini first if key is available
     if gemini_key:
-        try:
-            print("✅ Using Gemini API for model")
-            model = LiteLLMModel(
-                model_id="gemini/gemini-1.5-flash",
-                api_key=gemini_key
-            )
-        except Exception as e:
-            print(f"⚠️ Gemini API failed: {e}")
+        # Try different Gemini models in order of preference
+        gemini_models = [
+            "gemini/gemini-pro",
+            "gemini/gemini-1.0-pro",
+            "gemini/gemini-1.5-pro",
+            "gemini/gemini-1.5-flash"
+        ]
+
+        for model_id in gemini_models:
+            try:
+                print(f"🔄 Trying Gemini model: {model_id}")
+                model = LiteLLMModel(
+                    model_id=model_id,
+                    api_key=gemini_key
+                )
+                print(f"✅ Successfully loaded {model_id}")
+                break
+            except Exception as e:
+                print(f"⚠️ {model_id} failed: {e}")
+                continue
 
     # If no model yet, try various free options in order
     if not model:
